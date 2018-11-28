@@ -10,8 +10,6 @@ package controller;
  * @author samir
  */
 
-   
-
 import static controller.DatabaseConnection.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
