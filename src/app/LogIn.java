@@ -53,27 +53,27 @@ public class LogIn extends Application {
         
         //UserName Label
         Label userNameLabel = new Label("User Name");
-        GridPane.setConstraints(userNameLabel, 0, 0);
+        GridPane.setConstraints(userNameLabel, 0, 1);
         
         //UserName INput
         TextField userInput = new TextField("");
         userInput.setPromptText("User Name");
-        GridPane.setConstraints(userInput,1,0);
+        GridPane.setConstraints(userInput,1,1);
        
         
         //Password label
         Label passLabel = new Label("Password");
-        GridPane.setConstraints(passLabel, 0, 1);
+        GridPane.setConstraints(passLabel, 0, 2);
         
         //Password input
         PasswordField passInput = new PasswordField();
         passInput.setPromptText("Password");
-        GridPane.setConstraints(passInput,1,1);
+        GridPane.setConstraints(passInput,1,2);
    
        
        //login button and action
        Button logInButton = new Button ("Log In");
-       GridPane.setConstraints(logInButton, 1, 2);
+       GridPane.setConstraints(logInButton, 1, 3);
        logInButton.setOnAction (event -> {
                
            
@@ -107,20 +107,24 @@ public class LogIn extends Application {
        
         //signup button and sction
        Button signUpButton = new Button ("Sign Up");
-       GridPane.setConstraints(signUpButton, 2, 2);
-       //signUpButton.setOnAction(e-> );
+       GridPane.setConstraints(signUpButton, 1, 4);
+       signUpButton.setOnAction(e-> {
+           SignUp signUpPage = new SignUp();
+            signUpPage.start(window);
+       });
        
        //forgot password button
        Button forgotPass = new Button ("Forgot Password");
-       GridPane.setConstraints(forgotPass, 1,3);
-     
+       GridPane.setConstraints(forgotPass, 0,3);
        
-       
-       
-       grid.getChildren().addAll(userNameLabel, userInput, passLabel, passInput, logInButton, signUpButton, forgotPass);       
       
        
-       loginScene = new Scene (grid, 300, 200);
+       
+       
+       grid.getChildren().addAll(logInLabel, userNameLabel, userInput, passLabel, passInput, logInButton, signUpButton, forgotPass);       
+      
+       
+       loginScene = new Scene (grid, 400, 200);
        window.setScene(loginScene);
        window.show();
        
