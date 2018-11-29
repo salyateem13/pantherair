@@ -13,7 +13,17 @@ import javafx.stage.Stage;
  * @author samir
  */
 public class SignUp extends Application {
+    
+    public static void main(String [] args ){
+        launch(args);
+    }
+    
+    
     public void start(Stage primaryStage) {
+        
+        
+        
+        
         
     }
     

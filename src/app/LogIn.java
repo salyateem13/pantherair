@@ -116,6 +116,10 @@ public class LogIn extends Application {
        //forgot password button
        Button forgotPass = new Button ("Forgot Password");
        GridPane.setConstraints(forgotPass, 0,3);
+       forgotPass.setOnAction(e->{
+           ForgotPass forgotPassScene = new ForgotPass();
+           forgotPassScene.start(window);
+       });
        
       
        
