@@ -5,6 +5,9 @@
  */
 package app;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -55,10 +58,16 @@ public class ForgotPass extends Application{
        forgotPassButton.setOnAction (event -> {
          
            
-           String userName;
-           userName= userInput.getText();
-           FPSecurityQuestion fpsq = new FPSecurityQuestion(userName);
-           fpsq.start(window);
+            try {
+                String userName;
+                userName= userInput.getText();
+                
+                FPSecurityQuestion fpsq = new FPSecurityQuestion(userName);
+                fpsq.start(window);
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(ForgotPass.class.getName()).log(Level.SEVERE, null, ex);
+            }
                    
                    
            
