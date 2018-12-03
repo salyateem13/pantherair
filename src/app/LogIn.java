@@ -5,18 +5,15 @@
  */
 package app;
 
-import app.AlertMessage;
-import app.Home;
+
 import controller.LogInAuthenticator;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,12 +30,12 @@ public class LogIn extends Application {
     
  Stage window;
  Scene loginScene;
-    
+ private static boolean isAuth = false;
+  private static boolean isAdmin = false;
     
     @Override
     public void start(Stage primaryStage) {
-       //initiliaze window and set title
-       window = primaryStage;
+         Stage window = new Stage();
        window.setTitle("Panther Air");
        
        
@@ -81,20 +78,44 @@ public class LogIn extends Application {
                
                try {
                    LogInAuthenticator lia = new LogInAuthenticator (userInput.getText(), passInput.getText());
-                   boolean temp = lia.checkCredentials();
-                   System.out.println("User authenticated is" + temp);
-                   if (temp == true)
+                   isAuth = lia.checkCredentials();
+                   isAdmin = lia.isAdmin();
+                   
+                   if (isAuth == true)
                    {
+                       lia.setAuth(true);
+                       
+                       /*
+                       if (isAdmin == true){
+                       //on login, change the menubar 
+                           
+                           
+                           AdminHome adminHomePage = new AdminHome();
+                        adminHomePage.start(window);
+                       } else {
                        Home homePage = new Home();
                        homePage.start(window);
+                       }
+
+                       */
+                       AuthHome ah = new AuthHome();
+                       ah.start(window);
+                       
+                        
+                       
                    }
-                   else if (temp == true)
+                   else if (isAuth == false)
                    {
-                       AlertMessage.display("Incorrect Login", "Username or password is incorrect. Please try again");                    
+                       lia.setAuth(false);
+                       AlertMessage.display("Incorrect Login", "Username or password is incorrect. Please try again");  
+                       Home home = new Home();
+                       home.start(window);
                    }
                    
                    else
                        AlertMessage.display("Incorrect Login", "Username or password is incorrect. Please try again");
+                    Home home = new Home();
+                       home.start(window);
                    
                } catch (SQLException ex) {
                    Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
@@ -105,13 +126,6 @@ public class LogIn extends Application {
            
        });
        
-        //signup button and sction
-       Button signUpButton = new Button ("Sign Up");
-       GridPane.setConstraints(signUpButton, 1, 4);
-       signUpButton.setOnAction(e-> {
-           SignUp signUpPage = new SignUp();
-            signUpPage.start(window);
-       });
        
        //forgot password button
        Button forgotPass = new Button ("Forgot Password");
@@ -121,33 +135,31 @@ public class LogIn extends Application {
            forgotPassScene.start(window);
        });
        
+       grid.getChildren().addAll(logInLabel, userNameLabel, userInput, passLabel, passInput, logInButton, forgotPass);       
       
        
-       
-       
-       grid.getChildren().addAll(logInLabel, userNameLabel, userInput, passLabel, passInput, logInButton, signUpButton, forgotPass);       
-      
-       
-       loginScene = new Scene (grid, 400, 200);
+       Scene loginScene = new Scene (grid, 400, 200);
        window.setScene(loginScene);
        window.show();
-       
-       
-       
-       
-       
-       
+            
+        
        
     }
 
-    
-    
-    
+
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public boolean getIsAuth(){
+        return this.isAuth;
+    }
+    
+    public boolean getIsAdmin (){
+        return this.isAdmin;
     }
 }

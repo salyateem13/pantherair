@@ -5,11 +5,15 @@
  */
 package controller;
 
+import app.FlightSelector;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,7 +28,7 @@ public class DatabaseConnection {
         {
             try 
             {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/PantherAir", "root", "Inshallah2020");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/panther_air", "root", "Inshallah2020");
             
             //Create a statement
             Statement statement = con.createStatement();
@@ -35,7 +39,7 @@ public class DatabaseConnection {
             }
             catch (SQLException e)
             {
-                 System.out.println("failed at creating a connection");
+                 Logger.getLogger(FlightSelector.class.getName()).log(Level.SEVERE, null, e);
             }
        
            return null;
@@ -55,7 +59,27 @@ public class DatabaseConnection {
 			return null;
         
         }
-
+        
+        public static PreparedStatement getPrepareStatement(String query) throws SQLException 
+        {
+            try 
+            {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/panther_air", "root", "Inshallah2020");
+            
+            //Create a statement
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+                
+            return preparedStmt;
+            
+                
+            }
+            catch (SQLException e)
+            {
+                  Logger.getLogger(FlightSelector.class.getName()).log(Level.SEVERE, null, e);
+            }
+       
+           return null;
+        }
   
     
 }

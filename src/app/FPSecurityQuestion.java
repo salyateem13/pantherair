@@ -78,10 +78,10 @@ public class FPSecurityQuestion extends Application {
                 
                 if(temp == true)
                 {
-                    AlertMessage.display("Congratulations!", "Here is your password" + fpv.getPassword());
+                    AlertMessage.display("Congratulations!", "Here is your password: " + fpv.getPassword());
                 }
                 else
-                    AlertMessage.display("Sorry!", "Your answe is incorrect" + fpv.getPassword());
+                    AlertMessage.display("Sorry!", "Your answer is incorrect");
             } catch (SQLException ex) {
                 Logger.getLogger(FPSecurityQuestion.class.getName()).log(Level.SEVERE, null, ex);
             }

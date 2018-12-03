@@ -7,6 +7,8 @@ package pantherair;
 
 import app.LogIn;
 import app.Home;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -40,16 +42,20 @@ public class PantherAir extends Application {
     @Override
     public void start(Stage primaryStage) {
 	
-	//Scene
-	Scene scene = new Scene(new BorderPane(), 1224, 968);
-	
-
-	//Primary Stage
-	primaryStage.setTitle("Panther Air");
-	primaryStage.setScene(scene);
-
-        LogIn login = new LogIn();
-        login.start(primaryStage);
+        try {
+            //Scene
+            Scene scene = new Scene(new BorderPane(), 1224, 968);
+            
+            
+            //Primary Stage
+            primaryStage.setTitle("Panther Air");
+            primaryStage.setScene(scene);
+            
+            Home home = new Home();
+            home.start(primaryStage);
+        } catch (Exception ex) {
+            Logger.getLogger(PantherAir.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
 
 

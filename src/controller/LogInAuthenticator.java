@@ -21,7 +21,8 @@ public class LogInAuthenticator {
     
     private String userName;
     private String password;
-    
+    private boolean isAuthenticated = false;
+    private boolean isAdmin = false;
     
     public LogInAuthenticator (String un, String pass)
     {
@@ -32,12 +33,12 @@ public class LogInAuthenticator {
     }
 
     public LogInAuthenticator() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
      public boolean checkCredentials() throws SQLException
     {
-        boolean isAuthenticated = false;
+        
         String query = "SELECT Password FROM USER_TABLE WHERE UserName = '" + this.userName + "'";
         
         ResultSet myResults = getResults(createConnection(), query);
@@ -71,8 +72,40 @@ public class LogInAuthenticator {
 	
     
    }
+     
+    public boolean checkIsAuth ()
+    {
+        return this.isAuthenticated;
+    }
     
+    public boolean isAdmin() throws SQLException {
+        String query = "SELECT isAdmin FROM USER_TABLE WHERE UserName = '" + this.userName + "'";
+        ResultSet myResults = getResults(createConnection(), query);
+        while (myResults.next()) 
+        {
+            String temp = myResults.getString("isAdmin");
+            if (temp.equals("1"))
+            {
+                this.isAdmin = true;
+                return this.isAdmin;
+         
+            }else
+                this.isAdmin = false;
+            return this.isAdmin;
+        }
+
+        return this.isAdmin;
+    }
+
+    public void setAuth(boolean b) {
+        this.isAuthenticated = b;
+
+    }
     
+    public void setIsAdmin(boolean b) {
+        this.isAdmin = b;
+
+    }
     
     
 }

@@ -15,9 +15,9 @@ import java.sql.SQLException;
  */
 public class ForgotPassValidator {
 
-    private String securityQuestion;
-    private String userName;
-    private String answer;
+    private String securityQuestion = "";
+    private String userName = "";
+    private String answer ="";
     
     public ForgotPassValidator () {
         

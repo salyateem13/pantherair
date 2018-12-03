@@ -3,20 +3,31 @@ TravelClassID	    numeric (4)	        PRIMARY KEY,
 Class	            varchar(10)	        NOT NULL
 );	
 
+
+CREATE TABLE FLIGHT_SCHEDULE (
+ScheduleID	    s    numeric (4) 		PRIMARY KEY,
+origin 			varchar(20)			NOT NULL,
+destination	varchar(20) 			NOT NULL
+
+);
+
 CREATE TABLE FLIGHTS (		
-FlightID	        numeric (4) 	    PRIMARY KEY,
-AirlineID	        numeric (4) 	    NOT NULL,
+FlightID	       int	    NOT NULL AUTO_INCREMENT,
 ScheduleID	        numeric (4) 	    NOT NULL,
-DepartTime	        DATE	            NOT NULL,
-ArriveTime 	        DATE 	            NOT NULL
+DepartDate        DATE	            NOT NULL,
+
+PRIMARY KEY (FlightID),
+FOREIGN KEY(ScheduleID) REFERENCES FLIGHT_SCHEDULE(ScheduleID)
 		
 );	
 
 CREATE TABLE FLIGHT_SEATS (		
-FlightSeatID 	    numeric (4)	    PRIMARY KEY,
-FlightID	        numeric (4) 	NOT NULL,
+FlightSeatID 	    int	    NOT NULL AUTO_INCREMENT,
+FlightID	        int 	NOT NULL,
 TravelClassID	    numeric (4) 	NOT NULL,
-SeatNumber	        numeric (4) 	NOT NULL,
+SeatNumber	        numeric (4) 	,
+
+PRIMARY KEY(FlightSeatID),
 FOREIGN KEY(TravelClassID) REFERENCES TRAVEL_CLASS(TravelClassID),
 FOREIGN KEY(FlightID) REFERENCES FLIGHTS(FlightID)
 );
@@ -52,3 +63,7 @@ CONSTRAINT      ticket_id           PRIMARY KEY(FlightSeatID, UserID),
  FOREIGN KEY(flightSeatID) REFERENCES FLIGHT_SEATS(flightSeatID),		
 
 FOREIGN KEY(UserID) REFERENCES USER_TABLE(userID) );
+
+
+
+
