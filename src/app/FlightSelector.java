@@ -5,6 +5,7 @@
  */
 package app;
 
+import controller.FlightAdder;
 import controller.FlightSearch;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -12,12 +13,16 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -28,7 +33,13 @@ import javafx.scene.layout.HBox;
  */
 public class FlightSelector  {
     
-   
+  LocalDate depDate;
+    LocalDate retDate;
+    String origin;
+     String destination;
+     String flightClass;
+     int numSeats;
+     
     public GridPane addFlightSelector () throws SQLException
     {
         
@@ -96,10 +107,10 @@ public class FlightSelector  {
         GridPane.setConstraints(departLabel, 0, 2);
         
         //Departure Date
-        final DatePicker departDatePicker= new DatePicker();
+        DatePicker departDatePicker= new DatePicker();
         departDatePicker.setOnAction (event -> {
-             LocalDate date = departDatePicker.getValue();
-             System.err.println("Selected date: " + date);
+             this.depDate = departDatePicker.getValue();
+             System.err.println("Selected date: " + this.depDate);
             
         });
         GridPane.setConstraints(departDatePicker, 1, 2);
@@ -110,7 +121,7 @@ public class FlightSelector  {
         GridPane.setConstraints(returnLabel, 0, 3);
         
         //Return Date
-        final DatePicker returnDatePicker= new DatePicker();
+        DatePicker returnDatePicker= new DatePicker();
         returnDatePicker.setOnAction (event -> {
              LocalDate date = returnDatePicker.getValue();
              System.err.println("Selected date: " + date);
@@ -120,9 +131,22 @@ public class FlightSelector  {
         
         //Select Flight Seat Class
         ToggleGroup group = new ToggleGroup();
-        RadioButton economy = new RadioButton ("Economy Class");
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+           @Override
+           public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
+               // Has selection.
+               if (group.getSelectedToggle() != null) {
+                   RadioButton button = (RadioButton) group.getSelectedToggle();
+                   System.out.println("Button: " + button.getText());
+                   flightClass= button.getText();
+               }
+           }
+       });
+        
+        RadioButton economy = new RadioButton ("Economy");
         economy.setToggleGroup(group);
-        RadioButton business = new RadioButton ("Business Class");
+        
+        RadioButton business = new RadioButton ("Business");
         business.setToggleGroup(group);
         HBox box = new HBox(20, economy,business);
         GridPane.setConstraints(box, 0, 4);
@@ -135,29 +159,31 @@ public class FlightSelector  {
         Button findSeatsButton = new Button ("Find Seats");
         GridPane.setConstraints(findSeatsButton, 1, 5);
         findSeatsButton.setOnAction(event ->{
-        
-            try {
-                String origin = getChoice(originChoiceBox);
-                String destination = getChoice(destChoiceBox);
-                LocalDate depDate = departDatePicker.getValue();
+      
+          try {
+                this.origin = getChoice(originChoiceBox);
+                this.destination = getChoice(destChoiceBox);
+                this.depDate = departDatePicker.getValue();
                 LocalDate retDate = returnDatePicker.getValue();
-                String flightClass = "";
-                if (group.getSelectedToggle() != null) {
-                    
-                    
-                    flightClass=  group.getSelectedToggle().getUserData().toString();
-                    
-                }
+                
                 
                 
                 //fsf.findDepFlight();
-                AlertMessage.displayResults(origin, destination, depDate, retDate, flightClass);
+                AlertMessage.displayResults(this.origin, this.destination, this.depDate, this.retDate, this.flightClass);
             } catch (SQLException ex) {
                 Logger.getLogger(FlightSelector.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         });  
-        grid.getChildren().addAll(originLabel, destLabel, originChoiceBox,destChoiceBox, departLabel, departDatePicker,returnLabel, returnDatePicker, box, findSeatsButton);
+        
+        //number of seats label
+        Label numSeatsLabel = new Label("NumberOfSeats");
+        GridPane.setConstraints(numSeatsLabel, 0, 6);
+        
+        
+        
+        
+        grid.getChildren().addAll(originLabel, destLabel, originChoiceBox,destChoiceBox, departLabel, departDatePicker,returnLabel, returnDatePicker, box,numSeatsLabel, findSeatsButton);
          
         return grid;
     }
@@ -166,5 +192,4 @@ public class FlightSelector  {
        String temp = cb.getValue();
        return temp;
    }
-     
 }

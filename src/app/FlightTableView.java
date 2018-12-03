@@ -66,7 +66,8 @@ public class FlightTableView {
     {
         System.out.println("ticket added");
         ObservableList<Flight> flight=  tableView.getSelectionModel().getSelectedItems();
-        System.out.println(flight.get(0).getSeatNo());
+        String seatNo = flight.get(0).getSeatNo();
+        
     }
     
 }

@@ -145,7 +145,7 @@ class AdminFlightSelector extends FlightSelector {
         RadioButton economy = new RadioButton ("Economy");
         economy.setToggleGroup(group);
         
-        RadioButton business = new RadioButton ("Buiness");
+        RadioButton business = new RadioButton ("Business");
         business.setToggleGroup(group);
         HBox box = new HBox(20, economy,business);
         GridPane.setConstraints(box, 0, 4);

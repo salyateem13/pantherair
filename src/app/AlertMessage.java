@@ -29,6 +29,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Flight;
+import models.User;
 
 /**
  *
@@ -38,12 +39,16 @@ import models.Flight;
 
 
 public class AlertMessage {
+
+    static boolean displaySignUpNode() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     Stage window;
     Scene loginScene;
     private TableView tableview;
     static boolean isAuthenticated = false;
     private static boolean isAdmin = false;
-
+    User thisUser;
   
 	public static void display(String title, String message) {
 		Stage window = new Stage();
@@ -238,5 +243,20 @@ public class AlertMessage {
 		window.setScene(scene);
 		window.show();	
 	}
+    
+    public static void displaySignUp ()
+    {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+		
+        
+        VBox layout= new VBox(10);
+	layout.getChildren().addAll();
+	layout.setAlignment(Pos.CENTER);
+		
+        Scene scene= new Scene(layout,500,500);
+	window.setScene(scene);
+	window.show();	
+    }
 }
 

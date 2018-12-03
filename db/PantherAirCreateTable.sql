@@ -5,7 +5,7 @@ Class	            varchar(10)	        NOT NULL
 
 
 CREATE TABLE FLIGHT_SCHEDULE (
-ScheduleID	    s    numeric (4) 		PRIMARY KEY,
+ScheduleID	    numeric (4) 		PRIMARY KEY,
 origin 			varchar(20)			NOT NULL,
 destination	varchar(20) 			NOT NULL
 
@@ -38,8 +38,8 @@ SecurityQuestion	char(50)	NOT NULL
 );	
 		
 CREATE TABLE USER_TABLE (		
-UserID	            numeric (4) 	PRIMARY KEY,
-Password  		varchar(20) 	NOT NULL,
+UserID	            int 	NOT NULL AUTO_INCREMENT,
+Password  			varchar(20) 	NOT NULL,
 UserName	        varchar(20) 	NOT NULL,
 FirstName	        varchar(20)	    NOT NULL,
 LastName	        varchar(20)	    NOT NULL,
@@ -52,18 +52,17 @@ SecurityQuestionID	numeric(4)		        NOT NULL,
 SecurityQuestionAnswer	char(50)	NOT NULL,
 SSN             	int 	          NOT NULL,
 isAdmin	            boolean	        NOT NULL,
+PRIMARY KEY (UserID),
+UNIQUE(UserName),
 FOREIGN KEY (SecurityQuestionID) REFERENCES SECURITY_QUESTION (SecurityQuestionID)
 );	
 
 CREATE TABLE TICKETS (		
-FlightSeatID 	    numeric (4) 	NOT NULL,
-UserID	            numeric (4)	    NOT NULL,
+FlightSeatID 	    int	NOT NULL,
+UserID	            int	    NOT NULL,
 CONSTRAINT      ticket_id           PRIMARY KEY(FlightSeatID, UserID),		
 
- FOREIGN KEY(flightSeatID) REFERENCES FLIGHT_SEATS(flightSeatID),		
+FOREIGN KEY(FlightSeatID) REFERENCES FLIGHT_SEATS(FlightSeatID) ON DELETE CASCADE,		
 
-FOREIGN KEY(UserID) REFERENCES USER_TABLE(userID) );
-
-
-
-
+FOREIGN KEY(UserID) REFERENCES USER_TABLE(UserID) ON DELETE CASCADE
+);
