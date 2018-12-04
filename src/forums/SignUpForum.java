@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -26,7 +27,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.scene.control.ComboBox;
-import javafx.scene.image.ImageView;
+
 
 
 
@@ -35,14 +36,11 @@ import javafx.scene.image.ImageView;
  * 
  */
 
-/* 
- * v2 commit test
- */
 
 public class SignUpForum extends Application {
     
      String secQuestionClass;
-     ImageView image = new ImageView();
+     ComboBox<String> secQComboBox;
 	
 	
 	public void start(Stage primaryStage) throws Exception {
@@ -107,14 +105,7 @@ public class SignUpForum extends Application {
         GridPane.setHalignment(headerLabel, HPos.CENTER);
         GridPane.setMargin(headerLabel, new Insets(20, 0,20,0));
         
-        ObservableList<String> options = 
-        	    FXCollections.observableArrayList(
-        	        "1",
-        	        "2",
-        	        "3"
-        	    );
-        	ComboBox comboBox = new ComboBox(options);
-
+ 
         // Add First Name Label
         Label nameLabel = new Label("First Name : ");
         gridPane.add(nameLabel, 0,1);
@@ -205,27 +196,44 @@ public class SignUpForum extends Application {
         passwordField.setPrefHeight(30);
         gridPane.add(passwordField, 1, 10);
         
-        final ToggleGroup group = new ToggleGroup();
+        
+        // Add secQLabel
+        Label secQLabel = new Label("Question: ");
+        gridPane.add(secQLabel, 0, 11);
+        
+        //Add SecurityQuestionComboBox
+        secQComboBox = new ComboBox<>();
+        secQComboBox.getItems().addAll(
+            "What is your favorite book?",
+            "What is the name of your pet",
+            "What is the name of yout elementary school?"          
+        );
+        secQComboBox.setPromptText("Pick Secuirty Question");
+        gridPane.add(secQComboBox, 1, 11);
+
 
         // Add AccountStatus Label
         Label acctStatusLabel = new Label("Pick Status : ");
-        gridPane.add(acctStatusLabel, 0, 11);
+        gridPane.add(acctStatusLabel, 0, 13);
+        
+        //Add RadioButtons for account status
+        final ToggleGroup group = new ToggleGroup();
         
         RadioButton rb1 = new RadioButton("Non-Admin");
         rb1.setToggleGroup(group);
         rb1.setSelected(true);
-        gridPane.add(rb1, 1, 11);
+        gridPane.add(rb1, 1, 13);
         
         RadioButton rb2 = new RadioButton("Admin");
         rb2.setToggleGroup(group);
-        gridPane.add(rb2, 1, 12);
+        gridPane.add(rb2, 1, 14);
 
         // Add Submit Button
         Button submitButton = new Button("Submit");
         submitButton.setPrefHeight(30);
         submitButton.setDefaultButton(true);
         submitButton.setPrefWidth(100);
-        gridPane.add(submitButton, 0, 14, 2, 1);
+        gridPane.add(submitButton, 0, 15, 2, 1);
         GridPane.setHalignment(submitButton, HPos.CENTER);
         GridPane.setMargin(submitButton, new Insets(20, 0,20,0));
 
@@ -288,6 +296,12 @@ public class SignUpForum extends Application {
                 }
                 if(passwordField.getText().isEmpty()) {
                     showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!", "Please enter a password");
+                    return;
+                }
+                
+                //comboBox error prompt
+                if(secQComboBox.getSelectionModel().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!", "Please choose a security question");
                     return;
                 }
 
