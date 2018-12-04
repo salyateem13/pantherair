@@ -230,7 +230,7 @@ public class AlertMessage {
                 FlightTableView ftv = new FlightTableView();
                 tv = ftv.getFlightListView(flights);
                
-                Button addFlightButton = new Button("Add Flights");
+                Button addFlightButton = new Button("Book Flight");
                 addFlightButton.setOnAction(e-> {
                     ftv.addTicket(e);
                 });

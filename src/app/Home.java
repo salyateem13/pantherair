@@ -53,7 +53,7 @@ public class Home extends Application {
         MenuItem menuItem1 = new MenuItem("Sign In");
         menu1.getItems().add(menuItem1);
         menuItem1.setOnAction(e -> {
-                 isAuth =  AlertMessage.displayNode();
+               isAuth =  AlertMessage.displayNode();
                System.out.println (isAuth);
                stage.close();
                 
@@ -64,6 +64,8 @@ public class Home extends Application {
         menu1.getItems().add(menuItem2);
         menuItem2.setOnAction(e -> {
                 System.out.println("Menu Item 1 Selected");
+                isAuth =  AlertMessage.displaySignUpNode();
+               System.out.println (isAuth);
              });
 
         
