@@ -17,6 +17,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import models.User;
 
 
 
@@ -29,14 +30,15 @@ import javafx.stage.Stage;
 public class AuthHome extends Application {
         
     Scene loginScene;
-   
+    User thisUser;
+           
 
      @Override
      public void start(Stage stage) throws Exception {
           
         BorderPane layout = new BorderPane();
          
-        FlightSelector fs1 = new FlightSelector();
+        FlightSelector fs1 = new FlightSelector(thisUser);
         layout.setLeft(fs1.addFlightSelector());
         
         HomePageTilePane hptp1 = new HomePageTilePane();
@@ -55,6 +57,12 @@ public class AuthHome extends Application {
         MenuItem menuItem3 = new MenuItem("My Flights");
         menu3.getItems().add(menuItem3);
         menuItem3.setOnAction(e -> {
+            try {
+                MyFlights mf = new MyFlights(thisUser);
+                mf.start(stage);
+            } catch (Exception ex) {
+                Logger.getLogger(AuthHome.class.getName()).log(Level.SEVERE, null, ex);
+            }
                 
                 });
       
@@ -90,7 +98,10 @@ public class AuthHome extends Application {
      
      
     
-        
+        public void setThisUser (User u)
+     {
+         this.thisUser = u;
+     }
 
     
     

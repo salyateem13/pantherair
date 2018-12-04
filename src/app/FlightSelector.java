@@ -6,14 +6,12 @@
 package app;
 
 import Interfaces.SearchAgent;
-import controller.FlightAdder;
 import controller.FlightSearch;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,13 +22,13 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import models.Flight;
+import models.User;
 
 /**
  *
@@ -44,6 +42,16 @@ public class FlightSelector implements SearchAgent {
      String destination;
      String flightClass;
      int numSeats;
+     User thisUser;
+     public FlightSelector()
+     {
+         
+     }
+     public FlightSelector(User u)
+     {
+         thisUser =u;
+     }
+     
      
     public GridPane addFlightSelector () throws SQLException
     {
@@ -166,14 +174,13 @@ public class FlightSelector implements SearchAgent {
         findSeatsButton.setOnAction(event ->{
       
           try {
-              this.origin = getChoice(originChoiceBox);
-               this.destination = getChoice(destChoiceBox);
-               this.depDate = departDatePicker.getValue();
-               LocalDate retDate = returnDatePicker.getValue();
-                
-              
-                
-              AlertMessage.displayResults(this.origin, this.destination, this.depDate, this.retDate, this.flightClass);
+          Flight flight = new Flight (getChoice(originChoiceBox),getChoice(destChoiceBox),departDatePicker.getValue().toString(), returnDatePicker.getValue().toString(), this.flightClass );
+          ObservableList <Flight> flights= FXCollections.observableArrayList();
+           AddFlights af = new AddFlights(this.thisUser,flight);
+           Stage stage = new Stage();
+           af.start(stage);
+           
+         
             } catch (SQLException ex) {
                 Logger.getLogger(FlightSelector.class.getName()).log(Level.SEVERE, null, ex);
             }

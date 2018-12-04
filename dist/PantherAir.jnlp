@@ -9,7 +9,7 @@
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
     <jar href="lib/PantherAirPreloader.jar" size="128095" download="progress" />
-    <jar href="PantherAir.jar" size="193117" download="eager" />
+    <jar href="PantherAir.jar" size="193578" download="eager" />
     <jar href="lib/c3p0-0.9.1-pre6.jar" size="531005" download="eager" />
     <jar href="lib/jboss-common-jdbc-wrapper-src.jar" size="35342" download="eager" />
     <jar href="lib/jboss-common-jdbc-wrapper.jar" size="50184" download="eager" />

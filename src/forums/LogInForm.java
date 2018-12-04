@@ -125,6 +125,7 @@ public class LogInForm extends Application {
                         int uID= gud.getUserID(thisUser);
                             thisUser.setuserID(Integer.toString(uID));
                        AuthHome ah = new AuthHome();
+                       ah.setThisUser(thisUser);
                        ah.start(window);
                        }
                        
