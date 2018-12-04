@@ -3,9 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package app;
+package forums;
 
 
+import app.AlertMessage;
+import app.AuthHome;
+import app.Home;
 import controller.LogInAuthenticator;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -26,7 +29,7 @@ import javafx.stage.Stage;
  *
  * @author samir
  */
-public class LogIn extends Application {
+public class LogInForm extends Application {
     
  Stage window;
  Scene loginScene;
@@ -36,7 +39,7 @@ public class LogIn extends Application {
     @Override
     public void start(Stage primaryStage) {
          Stage window = new Stage();
-       window.setTitle("Panther Air");
+       window.setTitle("Panther Air LogIn");
        
        
        Label logInLabel;
@@ -67,6 +70,20 @@ public class LogIn extends Application {
         passInput.setPromptText("Password");
         GridPane.setConstraints(passInput,1,2);
    
+        
+       //go back home button
+  
+       Button goHomeButton = new Button ("Home");
+       GridPane.setConstraints(goHomeButton, 0,3);
+       goHomeButton.setOnAction(e->{
+           
+             try {
+                 Home home = new Home ();
+                 home.start(window);
+             } catch (Exception ex) {
+                 Logger.getLogger(LogInForm.class.getName()).log(Level.SEVERE, null, ex);
+             }
+       });
        
        //login button and action
        Button logInButton = new Button ("Log In");
@@ -118,10 +135,10 @@ public class LogIn extends Application {
                        home.start(window);
                    
                } catch (SQLException ex) {
-                   Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+                   Logger.getLogger(LogInForm.class.getName()).log(Level.SEVERE, null, ex);
                
                } catch (Exception ex) {
-                   Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+                   Logger.getLogger(LogInForm.class.getName()).log(Level.SEVERE, null, ex);
                }
            
        });
@@ -129,13 +146,15 @@ public class LogIn extends Application {
        
        //forgot password button
        Button forgotPass = new Button ("Forgot Password");
-       GridPane.setConstraints(forgotPass, 0,3);
+       GridPane.setConstraints(forgotPass, 1,4);
        forgotPass.setOnAction(e->{
            ForgotPass forgotPassScene = new ForgotPass();
            forgotPassScene.start(window);
        });
        
-       grid.getChildren().addAll(logInLabel, userNameLabel, userInput, passLabel, passInput, logInButton, forgotPass);       
+       
+       
+       grid.getChildren().addAll(logInLabel, userNameLabel, userInput, passLabel, passInput, logInButton, forgotPass, goHomeButton);       
       
        
        Scene loginScene = new Scene (grid, 400, 200);

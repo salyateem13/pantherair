@@ -5,10 +5,16 @@
  */
 package Interfaces;
 
+import java.sql.SQLException;
+import javafx.scene.layout.GridPane;
+
 /**
  *
  * @author samir
  */
 public interface SearchAgent {
+    
+    GridPane addFlightSelector () throws SQLException;
+    
     
 }

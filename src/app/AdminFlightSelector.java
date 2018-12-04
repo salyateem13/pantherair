@@ -5,6 +5,7 @@
  */
 package app;
 
+import Interfaces.SearchAgent;
 import controller.FlightAdder;
 import controller.FlightSearch;
 import java.sql.SQLException;
@@ -30,7 +31,7 @@ import javafx.scene.layout.HBox;
  *
  * @author samir
  */
-class AdminFlightSelector extends FlightSelector {
+class AdminFlightSelector implements SearchAgent {
 
     LocalDate depDate;
     LocalDate retDate;

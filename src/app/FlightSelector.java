@@ -5,6 +5,7 @@
  */
 package app;
 
+import Interfaces.SearchAgent;
 import controller.FlightAdder;
 import controller.FlightSearch;
 import java.sql.SQLException;
@@ -31,7 +32,7 @@ import javafx.scene.layout.HBox;
  *
  * @author samir
  */
-public class FlightSelector  {
+public class FlightSelector implements SearchAgent {
     
   LocalDate depDate;
     LocalDate retDate;
@@ -176,14 +177,11 @@ public class FlightSelector  {
 
         });  
         
-        //number of seats label
-        Label numSeatsLabel = new Label("NumberOfSeats");
-        GridPane.setConstraints(numSeatsLabel, 0, 6);
+   
         
         
         
-        
-        grid.getChildren().addAll(originLabel, destLabel, originChoiceBox,destChoiceBox, departLabel, departDatePicker,returnLabel, returnDatePicker, box,numSeatsLabel, findSeatsButton);
+        grid.getChildren().addAll(originLabel, destLabel, originChoiceBox,destChoiceBox, departLabel, departDatePicker,returnLabel, returnDatePicker, box, findSeatsButton);
          
         return grid;
     }

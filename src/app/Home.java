@@ -6,6 +6,7 @@
 package app;
 
 
+import forums.LogInForm;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Node;
@@ -49,17 +50,22 @@ public class Home extends Application {
          MenuBar menuBar = new MenuBar();
         menuBar.getMenus().addAll(menu, menu1);
          layout.setTop(menuBar);   
+        
          
+         //SignIn menu option
         MenuItem menuItem1 = new MenuItem("Sign In");
         menu1.getItems().add(menuItem1);
         menuItem1.setOnAction(e -> {
-               isAuth =  AlertMessage.displayNode();
-               System.out.println (isAuth);
+               ///isAuth =  AlertMessage.displayNode();
+               //System.out.println (isAuth);
+               LogInForm lif = new LogInForm();
+               lif.start(stage);
+               
                stage.close();
                 
                 });
       
-        
+        //SignUp menu option
         MenuItem menuItem2 = new MenuItem("Sign Up");
         menu1.getItems().add(menuItem2);
         menuItem2.setOnAction(e -> {

@@ -5,6 +5,7 @@
  */
 package app;
 
+import forums.ForgotPass;
 import controller.FlightSearch;
 import controller.LogInAuthenticator;
 import controller.FlightSearch;
@@ -118,7 +119,12 @@ public class AlertMessage {
                
                 try {
                     LogInAuthenticator lia = new LogInAuthenticator (userInput.getText(), passInput.getText());
+                    
                     isAuthenticated = lia.checkCredentials();
+                    
+                    User thisUser = new User (userInput.getText(), passInput.getText());
+                   // boolean isAdmin = thisUser.checkCredentials();
+                   
                     boolean isAdmin = lia.isAdmin();
                     System.out.println("LIA.isAdmin is " + isAdmin);
                     

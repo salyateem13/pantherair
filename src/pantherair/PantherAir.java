@@ -5,7 +5,7 @@
  */
 package pantherair;
 
-import app.LogIn;
+import forums.LogInForm;
 import app.Home;
 import com.sun.javafx.application.LauncherImpl;
 import java.util.logging.Level;
