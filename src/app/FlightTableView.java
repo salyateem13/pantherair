@@ -5,6 +5,10 @@
  */
 package app;
 
+import controller.FlightAdder;
+import controller.TicketDelete;
+import controller.GetUserData;
+import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import models.Flight;
+import models.User;
 
 /**
  *
@@ -20,6 +25,14 @@ import models.Flight;
 public class FlightTableView {
 
     private TableView <Flight> tableView;
+    private User thisUser;
+    private Flight selectedFlight ;
+    
+    FlightTableView(User u, Flight f)
+    {
+        this.thisUser = u;
+        this.selectedFlight = f;
+    }
     
     public TableView getFlightListView (ObservableList <Flight> flights)
     {
@@ -62,11 +75,51 @@ public class FlightTableView {
         
     }
     
-    void addTicket (ActionEvent event)
+    void addTicket (ActionEvent event) throws SQLException
     {
         System.out.println("ticket added");
         ObservableList<Flight> flight=  tableView.getSelectionModel().getSelectedItems();
-        String seatNo = flight.get(0).getSeatNo();
+        // get seat number
+        int seatNo = Integer.parseInt(flight.get(0).getSeatNo());
+        
+        //get user ID from username
+        String uName = thisUser.getUserName();
+        GetUserData gud = new GetUserData();
+        int uID= gud.getUserID(thisUser);
+        
+        //Add ticket
+        FlightAdder fa = new FlightAdder();
+        fa.addTickets(seatNo, uID);
+        
+        
+        
+        System.out.println(thisUser.getUserName() + "ticket added");
+        
+        
+    }
+    
+     void deleteTicket (ActionEvent event) throws SQLException
+    {
+       
+        ObservableList<Flight> flight=  tableView.getSelectionModel().getSelectedItems();
+        // get seat id using seat number and flightseatid
+       //flightseatid
+       int flightSeatID = flight.get(0).getFlightSeatID();
+       System.out.println(flightSeatID);
+               
+        //get user ID from username
+        String uName = thisUser.getUserName();
+        GetUserData gud = new GetUserData();
+        int uID= gud.getUserID(thisUser);
+        
+        //DElete ticket
+        TicketDelete td = new TicketDelete();
+        td.deleteTicket(flightSeatID, uID);
+        
+        
+        
+        System.out.println(thisUser.getUserName() + "ticket added");
+        
         
     }
     

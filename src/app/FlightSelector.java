@@ -16,17 +16,21 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import models.Flight;
 
 /**
  *
@@ -162,15 +166,14 @@ public class FlightSelector implements SearchAgent {
         findSeatsButton.setOnAction(event ->{
       
           try {
-                this.origin = getChoice(originChoiceBox);
-                this.destination = getChoice(destChoiceBox);
-                this.depDate = departDatePicker.getValue();
-                LocalDate retDate = returnDatePicker.getValue();
+              this.origin = getChoice(originChoiceBox);
+               this.destination = getChoice(destChoiceBox);
+               this.depDate = departDatePicker.getValue();
+               LocalDate retDate = returnDatePicker.getValue();
                 
+              
                 
-                
-                //fsf.findDepFlight();
-                AlertMessage.displayResults(this.origin, this.destination, this.depDate, this.retDate, this.flightClass);
+              AlertMessage.displayResults(this.origin, this.destination, this.depDate, this.retDate, this.flightClass);
             } catch (SQLException ex) {
                 Logger.getLogger(FlightSelector.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -7,6 +7,9 @@ package app;
 
 
 import forums.LogInForm;
+import forums.SignUpForum;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Node;
@@ -28,7 +31,6 @@ public class Home extends Application {
         
     Scene loginScene;
     static private boolean isAuth= false;
-    private boolean isAdmin = false;
 
      @Override
      public void start(Stage stage) throws Exception {
@@ -69,9 +71,15 @@ public class Home extends Application {
         MenuItem menuItem2 = new MenuItem("Sign Up");
         menu1.getItems().add(menuItem2);
         menuItem2.setOnAction(e -> {
-                System.out.println("Menu Item 1 Selected");
-                isAuth =  AlertMessage.displaySignUpNode();
-               System.out.println (isAuth);
+        
+            try {
+                SignUpForum sif = new SignUpForum();
+                sif.start(stage);
+                //stage.close();
+            } catch (Exception ex) {
+                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
              });
 
         

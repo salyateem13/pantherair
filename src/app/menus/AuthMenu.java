@@ -3,8 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package app;
+package app.menus;
 
+/**
+ *
+ * @author samir
+ */
+
+import app.AlertMessage;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -16,12 +22,12 @@ import javafx.stage.Stage;
  *
  * @author samir
  */
-public class GeneralMenu {
+public class AuthMenu {
     
   private boolean isAuthenticated = false;
   private boolean isAdmin = false;
   
-    public MenuBar getGeneralMenu()
+    public MenuBar getAuthMenu()
     {
         Menu menu = new Menu("Home");
 
@@ -29,19 +35,19 @@ public class GeneralMenu {
         
         //menu.setGraphic(new ImageView("file:Georgia_State_Athletics_logo.svg.png"));
        
-        MenuItem menuItem1 = new MenuItem("Sign In");
+        MenuItem menuItem1 = new MenuItem("Sign Out");
         menu1.getItems().add(menuItem1);
         menuItem1.setOnAction(e -> {
-                AlertMessage.displayNode();
+                
                 ((Node)(e.getSource())).getScene().getWindow().hide();
                 
                 });
         
         
-        MenuItem menuItem2 = new MenuItem("Sign Up");
+        MenuItem menuItem2 = new MenuItem("My Flights");
         menu1.getItems().add(menuItem2);
         menuItem2.setOnAction(e -> {
-                System.out.println("Menu Item 1 Selected");
+                System.out.println("Menu Item 2 Selected");
              });
 
         
@@ -77,7 +83,7 @@ public class GeneralMenu {
              });
 
         
-        MenuItem menuItem3 = new MenuItem("Sign In");
+        MenuItem menuItem3 = new MenuItem("");
         menu1.getItems().add(menuItem3);
         
         
@@ -97,3 +103,4 @@ public class GeneralMenu {
     }
     
 }
+

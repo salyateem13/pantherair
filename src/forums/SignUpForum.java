@@ -1,7 +1,14 @@
 package forums;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import app.FlightSelector;
+import app.Home;
+import controller.FlightSearch;
+import controller.SetUserData;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,23 +17,22 @@ import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.scene.control.ComboBox;
+import models.Admin;
+import models.User;
 
 
 
@@ -38,13 +44,16 @@ import javafx.scene.control.ComboBox;
 
 
 public class SignUpForum extends Application {
-    
+     Stage window;
      String secQuestionClass;
-     ComboBox<String> secQComboBox;
+     ChoiceBox<String> secChoiceBox;
+     private String userStatus;
 	
-	
+	@Override
 	public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Sign Up PantherAir");
+          window = primaryStage;
+            
+            window.setTitle("Sign Up PantherAir");
         
         
         // Create the registration form grid pane
@@ -52,11 +61,11 @@ public class SignUpForum extends Application {
         // Add UI controls to the registration form grid pane
         addUIControls(gridPane);
         // Create a scene with registration form grid pane as the root node
-        Scene scene = new Scene(gridPane, 900, 900);
+        Scene scene = new Scene(gridPane, 1000, 1000);
         // Set the scene in primary stage	
-        primaryStage.setScene(scene);
+        window.setScene(scene);
         
-        primaryStage.show();
+        window.show();
         
         
     }
@@ -150,33 +159,33 @@ public class SignUpForum extends Application {
         TextField emailField = new TextField();
         emailField.setPrefHeight(30);
         gridPane.add(emailField, 1, 5);
+        // Add State Label
+        Label cityLabel = new Label("City : ");
+        gridPane.add(cityLabel, 0,6);
+        
+        // Add State Text Field
+        TextField cityField = new TextField();
+        cityField.setPrefHeight(30);
+        gridPane.add(cityField, 1,6);
            
         // Add ZipCode Label
         Label zipLabel = new Label("Zip : ");
-        gridPane.add(zipLabel, 0,6);
+        gridPane.add(zipLabel, 0,7);
         
         // Add ZipCode Text Field
         TextField zipField = new TextField();
         zipField.setPrefHeight(30);
-        gridPane.add(zipField, 1,6);
+        gridPane.add(zipField, 1,7);
         
         // Add State Label
-        Label stateLabel = new Label("Address : ");
-        gridPane.add(stateLabel, 0,7);
+        Label stateLabel = new Label("State : ");
+        gridPane.add(stateLabel, 0,8);
         
         // Add State Text Field
         TextField stateField = new TextField();
         stateField.setPrefHeight(30);
-        gridPane.add(stateField, 1,7);
+        gridPane.add(stateField, 1,8);
         
-        // Add UserID Label
-        Label userIDLabel = new Label("UserID : ");
-        gridPane.add(userIDLabel, 0,8);
-        
-        // Add UserID Text Field
-        TextField userIDField = new TextField();
-        userIDField.setPrefHeight(30);
-        gridPane.add(userIDField, 1, 8);
         
         // Add UserName Label
         Label userNameLabel = new Label("Username : ");
@@ -202,14 +211,24 @@ public class SignUpForum extends Application {
         gridPane.add(secQLabel, 0, 11);
         
         //Add SecurityQuestionComboBox
-        secQComboBox = new ComboBox<>();
-        secQComboBox.getItems().addAll(
+        secChoiceBox = new ChoiceBox<>();
+        secChoiceBox.getItems().addAll(
             "What is your favorite book?",
-            "What is the name of your pet",
+            "What is the name of your pet?",
             "What is the name of yout elementary school?"          
         );
-        secQComboBox.setPromptText("Pick Secuirty Question");
-        gridPane.add(secQComboBox, 1, 11);
+        secChoiceBox.setValue("Pick Secuirty Question");
+        gridPane.add(secChoiceBox, 1, 11);
+        
+        
+        
+        
+         // Add SQA Text Field
+        TextField sqaField = new TextField("Security Question Answer");
+        sqaField.setPrefHeight(30);
+        gridPane.add(sqaField, 1,12);
+       
+        
 
 
         // Add AccountStatus Label
@@ -227,19 +246,60 @@ public class SignUpForum extends Application {
         RadioButton rb2 = new RadioButton("Admin");
         rb2.setToggleGroup(group);
         gridPane.add(rb2, 1, 14);
+        
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+           @Override
+           public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
+               // Has selection.
+               if (group.getSelectedToggle() != null) {
+                   RadioButton button = (RadioButton) group.getSelectedToggle();
+                   System.out.println("Button: " + button.getText());
+                    userStatus = button.getText();
+               }
+           }
+       });
 
         // Add Submit Button
         Button submitButton = new Button("Submit");
         submitButton.setPrefHeight(30);
-        submitButton.setDefaultButton(true);
+       // submitButton.setDefaultButton(true);
         submitButton.setPrefWidth(100);
         gridPane.add(submitButton, 0, 15, 2, 1);
         GridPane.setHalignment(submitButton, HPos.CENTER);
         GridPane.setMargin(submitButton, new Insets(20, 0,20,0));
+        
 
         submitButton.setOnAction(new EventHandler<ActionEvent>() {
+            
+            
+            
+            //if Admin radiobutton selection
+            
+            
+        
+                
+            //else if customer radiobutton selected
+            
+            
+            //else show alert
+         
             @Override
             public void handle(ActionEvent event) {
+                //set security question id for Object creations
+                String temp = secChoiceBox.getValue();
+                int sqi = 0;
+                if (Objects.equals(temp, new String("What is your favorite book?")))
+                {
+                    sqi = 5001; 
+                }else if (Objects.equals(temp, new String("What is the name of your pet?")))
+                    sqi = 5002;
+                
+                else if (Objects.equals(temp, new String("What is the name of yout elementary school?")))
+                    sqi = 5003;
+                
+        
+                
+                
                 if(firstNameField.getText().isEmpty()) {
                     showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!", "Please enter your first name");
                     return;
@@ -260,10 +320,6 @@ public class SignUpForum extends Application {
                     return;
                 }
                 
-                if(userIDField.getText().isEmpty()) {
-                    showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!", "Please enter a user ID");                                                
-                    return;
-                }
                 
                 if (validateNumber(ssnField) == false) {
             		showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!", "Please input only numbers for \nsocial security number xxx-xx-xxxx (no dashes)");   
@@ -275,10 +331,7 @@ public class SignUpForum extends Application {
                 	return;
                 }
                 
-            	if (validateNumber(userIDField) == false) {
-            		showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!", "Please input only numbers for user ID");   
-            		return;
-            	}
+            	
             	
             	if (validateNumber(zipField) == false) {
             		showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!", "Please input only numbers for zip code");   
@@ -300,12 +353,64 @@ public class SignUpForum extends Application {
                 }
                 
                 //comboBox error prompt
-                if(secQComboBox.getSelectionModel().isEmpty()) {
+                if(secChoiceBox.getSelectionModel().isEmpty()) {
                     showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Form Error!", "Please choose a security question");
                     return;
                 }
+                
+                if(Objects.equals(userStatus, new String("Admin")))
+                {
+                    try {
+                        
+                        //create admin object
+                        Admin thisAdmin = new Admin(passwordField.getText(), userNameField.getText(),firstNameField.getText(), lastNameField.getText(), addressField.getText(), cityField.getText(), stateField.getText(), zipField.getText(), emailField.getText(), Integer.toString(sqi), sqaField.getText(), ssnField.getText(), true);
+                        
+                        //pass admin object through controller
+                        SetUserData sud = new SetUserData();
+                        sud.addAdmin(thisAdmin);
+                        
+                        Home home = new Home();
+                        Stage stage = new Stage();
+                        home.start(stage);
+                        
+                        showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "Registration Successful!", "Welcome " + firstNameField.getText() + " " + lastNameField.getText());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(SignUpForum.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
+                        Logger.getLogger(SignUpForum.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
-                showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "Registration Successful!", "Welcome " + firstNameField.getText() + " " + lastNameField.getText());
+                   
+                }
+                
+                
+                else if (Objects.equals(userStatus, new String("Non-Admin")))
+                {
+                    try {
+                        // create user object
+                        User thisUser = new User(passwordField.getText(), userNameField.getText(),firstNameField.getText(), lastNameField.getText(), addressField.getText(), cityField.getText(), stateField.getText(), zipField.getText(), emailField.getText(), Integer.toString(sqi), sqaField.getText(), ssnField.getText());
+                        //pass admin object through controller
+                        SetUserData sud = new SetUserData();
+                        sud.addUser(thisUser);
+                        
+                         Home home = new Home();
+                        Stage stage = new Stage();
+                        home.start(stage);
+                        
+                        //pass user object through controller
+                        showAlert(Alert.AlertType.CONFIRMATION, gridPane.getScene().getWindow(), "Registration Successful!", "Welcome " + firstNameField.getText() + " " + lastNameField.getText());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(SignUpForum.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
+                        Logger.getLogger(SignUpForum.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                 }
+                else
+        showAlert(Alert.AlertType.ERROR, gridPane.getScene().getWindow(), "Registration Failed", "Sorry!");
+ 
+                
+
             }
         });
     }

@@ -21,6 +21,7 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import models.Flight;
+import models.User;
 
 /**
  *
@@ -95,7 +96,7 @@ public class FlightSearch {
         
     }
     
-    public ObservableList <Flight> findDepFlight () throws SQLException
+    public ObservableList <Flight> findDepFlight (Flight f) throws SQLException
     {
         
         String query = "Select fs.FlightSeatID, f.FlightID, tc.TravelClassID, SeatNumber, fsh.ScheduleID, origin, destination, Class, DepartDate\n" +
@@ -103,9 +104,9 @@ public class FlightSearch {
 "			INNER JOIN FLIGHT_SCHEDULE fsh ON f.ScheduleID = fsh.ScheduleID) \n" +
 "				INNER JOIN TRAVEL_CLASS tc ON fs.TravelClassID= tc.TravelClassID\n" +
 "GROUP BY fs.FlightSeatID, f.FlightID, TravelClassID, SeatNumber, fsh.ScheduleID, origin, destination, Class, DepartDate\n" +
-"HAVING DepartDate = '"+ this.depDate.toString() +"'\n" +
-" AND Class LIKE  '%"+ this.flightClass +"%'\n" +
-"AND origin = '"+ this.origin +"'";
+"HAVING DepartDate = '"+ f.getDepDate().toString() +"'\n" +
+" AND Class LIKE  '%"+ f.getFlightClass() +"%'\n" +
+"AND origin = '"+ f.getOrigin() + "' AND FlightSeatID NOT IN (SELECT FlightSeatID FROM TICKETS) ";
         ObservableList <Flight> flights = FXCollections.observableArrayList();
         ResultSet myResults = getResults(createConnection(), query);
          while(myResults.next())
@@ -126,4 +127,32 @@ public class FlightSearch {
          
     
     //public insertFlight()
+
+    public ObservableList<Flight> findMyFlights(User thisUser) throws SQLException {
+          String query = "Select fs.FlightSeatID, f.FlightID, tc.TravelClassID, SeatNumber, fsh.ScheduleID, origin, destination, Class, DepartDate, t.UserID\n" +
+"From (((FLIGHT_SEATS fs  INNER JOIN  Flights f ON f.FlightID = fs.FlightID)\n" +
+"			INNER JOIN FLIGHT_SCHEDULE fsh ON f.ScheduleID = fsh.ScheduleID) \n" +
+"				INNER JOIN TRAVEL_CLASS tc ON fs.TravelClassID= tc.TravelClassID)\n" +
+"                INNER JOIN TICKETS t ON fs.FlightSeatID = t.FlightSeatID\n" +
+"GROUP BY fs.FlightSeatID, f.FlightID, TravelClassID, SeatNumber, fsh.ScheduleID, origin, destination, Class, DepartDate ,  t.UserID\n" +
+"HAVING UserID = " +thisUser.getUserID();
+        ObservableList <Flight> flights = FXCollections.observableArrayList();
+        ResultSet myResults = getResults(createConnection(), query);
+         while(myResults.next())
+         {
+             flights.add(new Flight(
+                     myResults.getString("origin"), 
+                     myResults.getString("destination"),
+                     myResults.getString("DepartDate"),
+                     myResults.getString("SeatNumber"),
+                     myResults.getString("Class"),
+                     myResults.getInt("FlightSeatID")
+             ));
+             
+         }
+         
+         return flights;
+         
+    }
+    
 }

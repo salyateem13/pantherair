@@ -229,7 +229,7 @@ public class AlertMessage {
                 ObservableList <Flight> flights= FXCollections.observableArrayList();
                 
                 //set observable list to finddepflight methof
-                flights = fs.findDepFlight();
+                //flights = fs.findDepFlight();
                 
       
                 TableView tv = new TableView();

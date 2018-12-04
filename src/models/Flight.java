@@ -18,21 +18,51 @@ public class Flight {
     private SimpleStringProperty origin = new SimpleStringProperty("");
     private SimpleStringProperty destination = new SimpleStringProperty("");
     private SimpleStringProperty depDate = new SimpleStringProperty("");
+    private SimpleStringProperty retDate = new SimpleStringProperty("");
     private SimpleStringProperty seatNo = new SimpleStringProperty("");
     private SimpleStringProperty flightClass = new SimpleStringProperty("") ;
+    private SimpleStringProperty flightNo = new SimpleStringProperty("") ;
+    private int flightSeatId;
     
     public Flight ()
     {
         
     }
     
-    public Flight(String o, String d, String dd, String fn, String fc)
+    
+    //constructor for flight display object
+    public Flight(String o, String d, String dd, String sn, String fc)
     {
       setOrigin(o) ;
       setDestination(d);
       setDepDate(dd);
-      setSeatNo(fn);
+      setSeatNo(sn);
       setFlightClass(fc);
+    
+    }
+    
+    
+    
+    /*
+    // constructor for flight search object
+    public Flight(String o, String d, String dd, String rd, String fc)
+    {
+      setOrigin(o) ;
+      setDestination(d);
+      setDepDate(dd);
+      setRetDate(rd);
+      setFlightClass(fc);
+    
+    }
+    */
+    //constructor for flight getter object
+    public Flight(String o, String d, String dd, String rd, String fn, int fsid)
+    {
+      setOrigin(o) ;
+      setDestination(d);
+      setDepDate(dd);
+      setRetDate(rd);
+      setFlightSeatID(fsid);
     
     }
 
@@ -78,6 +108,21 @@ public class Flight {
         depDate.set(depd);
         
     }
+    
+      /**
+     * @return the depDate
+     */
+    public String getRetDate() {
+        return retDate.get();
+    }
+
+    /**
+     * @param depd
+     */
+    public void setRetDate(String retd) {
+        retDate.set(retd);
+        
+    }
     /**
      * @param seatNo
      */
@@ -107,8 +152,32 @@ public class Flight {
         flightClass.set(fc);
     }
 
-   
+    /**
+     * @return the flightClass
+     */
+    public int getFlightSeatID() {
+        return flightSeatId;
+    }
+
+    /**
+     * @param fc the flightClass to set
+     */
+    public void setFlightSeatID(int fcid) {
+        this.flightSeatId = fcid;
+    }
     
     
-    
+     /**
+     * @return the flightClass
+     */
+    public String getFlightNo() {
+         return flightNo.get();
+    }
+
+    /**
+     * @param fc the flightClass to set
+     */
+    public void setFlightSeatID(String fno) {
+       flightNo.set(fno);
+    }
 }

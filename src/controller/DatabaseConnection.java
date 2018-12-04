@@ -32,7 +32,7 @@ public class DatabaseConnection {
             
             //Create a statement
             Statement statement = con.createStatement();
-                
+                //con.close();
             return statement;
             
                 
@@ -68,8 +68,11 @@ public class DatabaseConnection {
             
             //Create a statement
             PreparedStatement preparedStmt = con.prepareStatement(query);
-                
+               
+           
             return preparedStmt;
+            
+            
             
                 
             }

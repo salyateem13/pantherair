@@ -6,6 +6,8 @@
 package app;
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Node;
@@ -17,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 
+
 /**
  *
  * @author samir
@@ -26,7 +29,7 @@ import javafx.stage.Stage;
 public class AuthHome extends Application {
         
     Scene loginScene;
-    
+   
 
      @Override
      public void start(Stage stage) throws Exception {
@@ -59,7 +62,16 @@ public class AuthHome extends Application {
         MenuItem menuItem2 = new MenuItem("Log Out");
         menu3.getItems().add(menuItem2);
         menuItem2.setOnAction(e -> {
-                System.out.println("Menu Item 1 Selected");
+            try {
+                Home home = new Home();
+                home.start(stage);
+                stage.close();
+            } catch (Exception ex) {
+                Logger.getLogger(AuthHome.class.getName()).log(Level.SEVERE, null, ex);
+            }finally {
+                stage.close();
+            }
+                
              });
 
    
@@ -75,6 +87,8 @@ public class AuthHome extends Application {
      public static void main(String args[]) {
           launch(args);
      }
+     
+     
     
         
 

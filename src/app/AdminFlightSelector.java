@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -26,6 +28,9 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import models.Admin;
+import models.Flight;
 
 /**
  *
@@ -39,6 +44,13 @@ class AdminFlightSelector implements SearchAgent {
      String destination;
      String flightClass;
      int numSeats;
+     private Admin thisAdmin;
+     
+     public AdminFlightSelector(Admin a)
+     {
+         thisAdmin =a;
+     }
+     
     @Override
     public GridPane addFlightSelector () throws SQLException
     {
@@ -160,20 +172,26 @@ class AdminFlightSelector implements SearchAgent {
         GridPane.setConstraints(findSeatsButton, 1, 5);
         findSeatsButton.setOnAction(event ->{
       
-          try {
-                this.origin = getChoice(originChoiceBox);
-                this.destination = getChoice(destChoiceBox);
-                this.depDate = departDatePicker.getValue();
-                LocalDate retDate = returnDatePicker.getValue();
+            try {
+                Flight flight = new Flight (getChoice(originChoiceBox),getChoice(destChoiceBox),departDatePicker.getValue().toString(), returnDatePicker.getValue().toString(), this.flightClass );
+            
+                //create observablelist
+                ObservableList <Flight> flights= FXCollections.observableArrayList();
                 
+                //set observable list to Add flight window
                 
+               
+                //Open TabelView
+                AddFlights af = new AddFlights(this.thisAdmin,flight);
                 
-                //fsf.findDepFlight();
-                AlertMessage.displayResults(this.origin, this.destination, this.depDate, this.retDate, this.flightClass);
+                Stage stage = new Stage();
+                af.start(stage);
             } catch (SQLException ex) {
-                Logger.getLogger(FlightSelector.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AdminFlightSelector.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+                
+                
+          
         });  
         
         //number of seats label
@@ -235,4 +253,18 @@ class AdminFlightSelector implements SearchAgent {
        String temp = cb.getValue();
        return temp;
    }
+
+    /**
+     * @return the thisAdmin
+     */
+    public Admin getThisAdmin() {
+        return thisAdmin;
+    }
+
+    /**
+     * @param thisAdmin the thisAdmin to set
+     */
+    public void setThisAdmin(Admin thisAdmin) {
+        this.thisAdmin = thisAdmin;
+    }
 }

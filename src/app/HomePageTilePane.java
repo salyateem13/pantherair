@@ -20,17 +20,17 @@ public class HomePageTilePane {
     tile.setHgap(8);
     tile.setPrefColumns(4);
     
-    Button b1 = new Button("Flights for Less than $200");
-    b1.setPrefSize(100, 100);
+    Button b1 = new Button("Flights to New York");
+    b1.setPrefSize(200, 100);
 
     Button b2 = new Button("Busines Class Flights");
-    b2.setPrefSize(100, 100);
+    b2.setPrefSize(200, 100);
     
-    Button b3 = new Button("Flights for Less than $100");
-    b3.setPrefSize(100, 100);
+    Button b3 = new Button("Flights to Charlotte");
+    b3.setPrefSize(200, 100);
     
     Button b4 = new Button("Economy Class Flights");
-    b4.setPrefSize(100, 100);
+    b4.setPrefSize(200, 100);
 
     
     tile.getChildren().addAll(b1, b2, b3, b4);

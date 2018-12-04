@@ -9,6 +9,8 @@ package forums;
 import app.AlertMessage;
 import app.AuthHome;
 import app.Home;
+import app.AdminHome;
+import controller.GetUserData;
 import controller.LogInAuthenticator;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -24,6 +26,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import models.Admin;
+import models.User;
 
 /**
  *
@@ -94,13 +98,35 @@ public class LogInForm extends Application {
            
                
                try {
+                   
+                   
+                   
                    LogInAuthenticator lia = new LogInAuthenticator (userInput.getText(), passInput.getText());
                    isAuth = lia.checkCredentials();
                    isAdmin = lia.isAdmin();
-                   
+                   System.out.print(isAuth);
+                   System.out.print(isAdmin);
                    if (isAuth == true)
                    {
-                       lia.setAuth(true);
+                       if(isAdmin ==true)
+                       {
+                       Admin thisAdmin = new Admin  (userInput.getText(), passInput.getText(), true);
+                       GetUserData gud = new GetUserData();
+                        int uID= gud.getUserID(thisAdmin);
+                        thisAdmin.setuserID(Integer.toString(uID));
+                       AdminHome ah = new AdminHome();
+                       ah.setThisAdmin(thisAdmin);
+                       ah.start(window);
+                       }
+                       else if(isAdmin == false)
+                       {
+                       User thisUser = new User();
+                       GetUserData gud = new GetUserData();
+                        int uID= gud.getUserID(thisUser);
+                            thisUser.setuserID(Integer.toString(uID));
+                       AuthHome ah = new AuthHome();
+                       ah.start(window);
+                       }
                        
                        /*
                        if (isAdmin == true){
@@ -112,11 +138,11 @@ public class LogInForm extends Application {
                        } else {
                        Home homePage = new Home();
                        homePage.start(window);
+                       userInput.getText(), passInput.getText()
                        }
 
                        */
-                       AuthHome ah = new AuthHome();
-                       ah.start(window);
+                       
                        
                         
                        
@@ -131,8 +157,8 @@ public class LogInForm extends Application {
                    
                    else
                        AlertMessage.display("Incorrect Login", "Username or password is incorrect. Please try again");
-                    Home home = new Home();
-                       home.start(window);
+                    //Home home = new Home();
+                       //home.start(window);
                    
                } catch (SQLException ex) {
                    Logger.getLogger(LogInForm.class.getName()).log(Level.SEVERE, null, ex);

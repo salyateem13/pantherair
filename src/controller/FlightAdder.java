@@ -35,6 +35,9 @@ public class FlightAdder {
     this.numOfSeats = numOfSeats;
     
     }
+
+    public FlightAdder() {
+    }
     
     public int getFlightScheduleID () throws SQLException
     {
@@ -99,6 +102,18 @@ public class FlightAdder {
         preparedStmt.setInt(1, getFlightID());
         preparedStmt.setInt(2, getClassID());
         preparedStmt.setInt(3, num);
+        preparedStmt.execute();
+
+        
+    }
+    
+    public void addTickets(int tid, int uid) throws SQLException {
+        String query = "INSERT INTO TICKETS (FlightSeatID, UserID)\n" +
+        "VALUES (?, ?)";
+        
+        PreparedStatement  preparedStmt = getPrepareStatement(query);
+        preparedStmt.setInt(1, tid);
+        preparedStmt.setInt(2, uid);
         preparedStmt.execute();
 
         
