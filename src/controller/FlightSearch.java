@@ -116,7 +116,8 @@ public class FlightSearch {
                      myResults.getString("destination"),
                      myResults.getString("DepartDate"),
                      myResults.getString("SeatNumber"),
-                     myResults.getString("Class")
+                     myResults.getString("Class"),
+                     myResults.getInt("FlightSeatId")
              ));
              
          }
@@ -146,7 +147,7 @@ public class FlightSearch {
                      myResults.getString("DepartDate"),
                      myResults.getString("SeatNumber"),
                      myResults.getString("Class"),
-                     myResults.getInt("FlightSeatID")
+                     myResults.getInt("FlightSeatId")
              ));
              
          }

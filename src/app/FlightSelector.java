@@ -183,6 +183,7 @@ public class FlightSelector implements SearchAgent {
          
             } catch (SQLException ex) {
                 Logger.getLogger(FlightSelector.class.getName()).log(Level.SEVERE, null, ex);
+                AlertMessage.display("Error", "Please add a return date");
             }
 
         });  

@@ -216,7 +216,7 @@ public class AlertMessage {
     public void setIsAdmin (boolean b){
          this.isAdmin = b;
     }
-    
+    /*
     public static void displayResults(String origin, String destination, LocalDate depDate, LocalDate retDate, String flightClass) throws SQLException {
 		Stage window = new Stage();
 		window.initModality(Modality.APPLICATION_MODAL);
@@ -250,6 +250,7 @@ public class AlertMessage {
 		window.show();	
 	}
     
+*/
     public static void displaySignUp ()
     {
         Stage window = new Stage();

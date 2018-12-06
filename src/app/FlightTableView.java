@@ -6,6 +6,7 @@
 package app;
 
 import controller.FlightAdder;
+import controller.FlightGetter;
 import controller.TicketDelete;
 import controller.GetUserData;
 import java.sql.SQLException;
@@ -59,13 +60,16 @@ public class FlightTableView {
          TableColumn flightClassColumn = new TableColumn("Flight Class");
         flightClassColumn.setMinWidth(100);
         flightClassColumn.setCellValueFactory(new PropertyValueFactory <> ("flightClass"));
+         
+        TableColumn seatNoIDColumn = new TableColumn("Seat ID");
+        seatNoIDColumn.setMinWidth(100);
+        seatNoIDColumn.setCellValueFactory(new PropertyValueFactory <> ("flightSeatID"));
         
         
         
         
         
-        
-        tableView.getColumns().addAll(originColumn,detinationColumn,depDateColumn, seatNoColumn, flightClassColumn);
+        tableView.getColumns().addAll(originColumn,detinationColumn,depDateColumn, seatNoColumn, flightClassColumn, seatNoIDColumn);
         
         tableView.setItems(flights);
         
@@ -80,7 +84,11 @@ public class FlightTableView {
         System.out.println("ticket added");
         ObservableList<Flight> flight=  tableView.getSelectionModel().getSelectedItems();
         // get seat number
-        int seatNo = Integer.parseInt(flight.get(0).getSeatNo());
+        //int seatNo = Integer.parseInt(flight.get(0).getSeatNo());
+      //  FlightGetter fg = new FlightGetter(this.selectedFlight);
+        
+        int seatNo = flight.get(0).getFlightSeatID();
+        
         
         //get user ID from username
         String uName = thisUser.getUserName();

@@ -56,7 +56,7 @@ public class Flight {
     }
     */
     //constructor for flight getter object
-    public Flight(String o, String d, String dd, String rd, String fn, int fsid)
+    public Flight(String o, String d, String dd, String rd,  int fsid)
     {
       setOrigin(o) ;
       setDestination(d);
@@ -65,7 +65,16 @@ public class Flight {
       setFlightSeatID(fsid);
     
     }
-
+ public Flight(String o, String d, String dd, String rd, String fc, int fsid)
+    {
+      setOrigin(o) ;
+      setDestination(d);
+      setDepDate(dd);
+      setRetDate(rd);
+      setFlightClass(fc);
+      setFlightSeatID(fsid);
+    
+    }
     /**
      * @return the origin
      */

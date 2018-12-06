@@ -19,5 +19,10 @@ public class FlightGetter {
         this.flight =f; 
     }
   
+    public void getFlightSeatID()
+    {
+        
+    }
+    
     
 }
